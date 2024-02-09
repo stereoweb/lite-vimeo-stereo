@@ -65,6 +65,14 @@ export class LiteVimeoEmbed extends HTMLElement {
     this.setAttribute('videoid', id);
   }
 
+  get customCss(): string {
+    return encodeURIComponent(this.getAttribute('customcss') || '');
+  }
+
+  set customCss(css: string) {
+    this.setAttribute('customcss', css);
+  }
+
   get videoTitle(): string {
     return this.getAttribute('videotitle') || 'Video';
   }
@@ -119,6 +127,7 @@ export class LiteVimeoEmbed extends HTMLElement {
    */
   private setupDom(): void {
     const shadowDom = this.attachShadow({mode: 'open'});
+    const css = this.customCss;
     shadowDom.innerHTML = `
       <style>
         :host {
@@ -196,6 +205,7 @@ export class LiteVimeoEmbed extends HTMLElement {
         .lvo-activated .lvo-playbtn {
           display: none;
         }
+        ${css}
       </style>
       <div id="frame">
         <picture>
