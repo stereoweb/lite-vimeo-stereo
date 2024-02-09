@@ -66,7 +66,7 @@ export class LiteVimeoEmbed extends HTMLElement {
   }
 
   get customCss(): string {
-    return encodeURIComponent(this.getAttribute('customcss') || '');
+    return this.getAttribute('customcss') || '';
   }
 
   set customCss(css: string) {
