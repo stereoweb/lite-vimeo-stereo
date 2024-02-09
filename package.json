@@ -1,10 +1,10 @@
 {
-  "name": "@slightlyoff/lite-vimeo",
+  "name": "@stereoweb/lite-vimeo-stereo",
   "description": "A web component that loads Vimeo embed iframes faster. ShadowDom based version of Paul Irish' concept.",
-  "author": "Alex Russell <slightlyoff@gmail.com>",
+  "author": "Chuck <charles@stereo.ca>",
   "repository": {
     "type": "git",
-    "url": "git@github.com:slightlyoff/lite-vimeo.git"
+    "url": "git@github.com:stereoweb/lite-vimeo-stereo"
   },
   "scripts": {
     "build": "tsc --project tsconfig.json",
