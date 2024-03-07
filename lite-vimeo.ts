@@ -35,7 +35,7 @@ export class LiteVimeoEmbed extends HTMLElement {
   private domRefFrame!: HTMLDivElement;
   private domRefImg!: {
     fallback: HTMLImageElement;
-    webp: HTMLSourceElement;
+    // webp: HTMLSourceElement;
     jpeg: HTMLSourceElement;
   };
   private domRefPlayButton!: HTMLButtonElement;
@@ -65,6 +65,13 @@ export class LiteVimeoEmbed extends HTMLElement {
     this.setAttribute('videoid', id);
   }
 
+  get poster(): string {
+    return this.getAttribute('poster') || '';
+  }
+
+  set poster(poster: string) {
+    this.setAttribute('poster', poster);
+  }
   get customCss(): string {
     return this.getAttribute('customcss') || '';
   }
@@ -226,9 +233,9 @@ export class LiteVimeoEmbed extends HTMLElement {
       fallback: this.shadowRoot.querySelector<HTMLImageElement>(
         '#fallbackPlaceholder',
       )!,
-      webp: this.shadowRoot.querySelector<HTMLSourceElement>(
-        '#webpPlaceholder',
-      )!,
+      // webp: this.shadowRoot.querySelector<HTMLSourceElement>(
+      //   '#webpPlaceholder',
+      // )!,
       jpeg: this.shadowRoot.querySelector<HTMLSourceElement>(
         '#jpegPlaceholder',
       )!,
@@ -338,13 +345,20 @@ export class LiteVimeoEmbed extends HTMLElement {
     const tnLarge = apiResponse.thumbnail_large;
     const imgId = (tnLarge.substr(tnLarge.lastIndexOf("/") + 1)).split("_")[0];
 
+    let posterUrlJpeg = "";
+    if(this.poster){
+        posterUrlJpeg = `${this.poster}`;
+    }else{
+        posterUrlJpeg = `https://i.vimeocdn.com/video/${imgId}.jpg?mw=1100&mh=619&q=70`;
+    }
+
     // const posterUrlWebp =
     //    `https://i.ytimg.com/vi_webp/${this.videoId}/hqdefault.webp`;
-    const posterUrlWebp =
-          `https://i.vimeocdn.com/video/${imgId}.webp?mw=1100&mh=619&q=70`;
-    const posterUrlJpeg =
-          `https://i.vimeocdn.com/video/${imgId}.jpg?mw=1100&mh=619&q=70`;
-    this.domRefImg.webp.srcset = posterUrlWebp;
+    // const posterUrlWebp =
+    //       `https://i.vimeocdn.com/video/${imgId}.webp?mw=1100&mh=619&q=70`;
+    // const posterUrlJpeg =
+    //       `https://i.vimeocdn.com/video/${imgId}.jpg?mw=1100&mh=619&q=70`;
+    // this.domRefImg.webp.srcset = posterUrlWebp;
     this.domRefImg.jpeg.srcset = posterUrlJpeg;
     this.domRefImg.fallback.src = posterUrlJpeg;
     this.domRefImg.fallback.setAttribute(

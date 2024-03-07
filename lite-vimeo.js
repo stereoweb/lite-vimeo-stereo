@@ -48,6 +48,12 @@ export class LiteVimeoEmbed extends HTMLElement {
     set videoId(id) {
         this.setAttribute('videoid', id);
     }
+    get poster() {
+        return this.getAttribute('poster') || '';
+    }
+    set poster(poster) {
+        this.setAttribute('poster', poster);
+    }
     get customCss() {
         return this.getAttribute('customcss') || '';
     }
@@ -196,7 +202,9 @@ export class LiteVimeoEmbed extends HTMLElement {
         this.domRefFrame = this.shadowRoot.querySelector('#frame');
         this.domRefImg = {
             fallback: this.shadowRoot.querySelector('#fallbackPlaceholder'),
-            webp: this.shadowRoot.querySelector('#webpPlaceholder'),
+            // webp: this.shadowRoot.querySelector<HTMLSourceElement>(
+            //   '#webpPlaceholder',
+            // )!,
             jpeg: this.shadowRoot.querySelector('#jpegPlaceholder'),
         };
         this.domRefPlayButton = this.shadowRoot.querySelector('.lvo-playbtn');
@@ -279,11 +287,20 @@ export class LiteVimeoEmbed extends HTMLElement {
         // thumbnail_large: "https://i.vimeocdn.com/video/819916979_640.jpg"
         const tnLarge = apiResponse.thumbnail_large;
         const imgId = (tnLarge.substr(tnLarge.lastIndexOf("/") + 1)).split("_")[0];
+        let posterUrlJpeg = "";
+        if (this.poster) {
+            posterUrlJpeg = `${this.poster}`;
+        }
+        else {
+            posterUrlJpeg = `https://i.vimeocdn.com/video/${imgId}.jpg?mw=1100&mh=619&q=70`;
+        }
         // const posterUrlWebp =
         //    `https://i.ytimg.com/vi_webp/${this.videoId}/hqdefault.webp`;
-        const posterUrlWebp = `https://i.vimeocdn.com/video/${imgId}.webp?mw=1100&mh=619&q=70`;
-        const posterUrlJpeg = `https://i.vimeocdn.com/video/${imgId}.jpg?mw=1100&mh=619&q=70`;
-        this.domRefImg.webp.srcset = posterUrlWebp;
+        // const posterUrlWebp =
+        //       `https://i.vimeocdn.com/video/${imgId}.webp?mw=1100&mh=619&q=70`;
+        // const posterUrlJpeg =
+        //       `https://i.vimeocdn.com/video/${imgId}.jpg?mw=1100&mh=619&q=70`;
+        // this.domRefImg.webp.srcset = posterUrlWebp;
         this.domRefImg.jpeg.srcset = posterUrlJpeg;
         this.domRefImg.fallback.src = posterUrlJpeg;
         this.domRefImg.fallback.setAttribute('aria-label', `${this.videoPlay}: ${this.videoTitle}`);
