@@ -216,7 +216,6 @@ export class LiteVimeoEmbed extends HTMLElement {
       </style>
       <div id="frame">
         <picture>
-          <source id="webpPlaceholder" type="image/webp">
           <source id="jpegPlaceholder" type="image/jpeg">
           <img id="fallbackPlaceholder"
                referrerpolicy="origin"
